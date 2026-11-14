@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>base16384 web</title>
+<meta name="description" content="Encode and decode base16384 in your browser: files, text, hex and base64, with a byte map, a 16384-character alphabet browser and a speed benchmark. Nothing leaves the page.">
+<meta name="color-scheme" content="light dark">
+<meta name="author" content="Aesthetic Vulpes">
+<meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17181b" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://decodeencode.github.io/base16384-web/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="assets/site.webmanifest">
+<link rel="license" href="https://github.com/DecodeEncode/base16384-web/blob/main/LICENSE">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="base16384 web">
+<meta property="og:title" content="base16384 web — encode, decode and benchmark in the browser">
+<meta property="og:description" content="Files, text, hex and base64 to base16384 and back, with a byte map, an alphabet browser and a speed benchmark. Runs entirely in your browser.">
+<meta property="og:url" content="https://decodeencode.github.io/base16384-web/">
+<meta property="og:image" content="https://decodeencode.github.io/base16384-web/images/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="base16384 web: the text 12345678 encoded as six Chinese characters, with a byte map.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://decodeencode.github.io/base16384-web/#app",
+      "name": "base16384 web",
+      "url": "https://decodeencode.github.io/base16384-web/",
+      "description": "A browser workbench for the base16384 binary-to-text format: encode and decode files, text, hex and base64, inspect characters, browse the 16384-character alphabet and benchmark throughput. Compatible with the reference command-line tool.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript with ES module and module worker support.",
+      "softwareVersion": "1.0.0",
+      "inLanguage": ["en", "ja"],
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "image": "https://decodeencode.github.io/base16384-web/images/og.png",
+      "screenshot": "https://decodeencode.github.io/base16384-web/images/encode.png",
+      "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+      "author": { "@id": "https://github.com/didvc/#author" }
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "base16384-web",
+      "codeRepository": "https://github.com/DecodeEncode/base16384-web",
+      "programmingLanguage": "JavaScript",
+      "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+      "targetProduct": { "@id": "https://decodeencode.github.io/base16384-web/#app" },
+      "author": { "@id": "https://github.com/didvc/#author" }
+    },
+    { "@type": "Person", "@id": "https://github.com/didvc/#author", "name": "Aesthetic Vulpes", "url": "https://github.com/didvc/" }
+  ]
+}
+</script>
+<link rel="stylesheet" href="assets/style.css">
+<script type="module" src="assets/app.js"></script>
+</head>
+<body>
+<a class="skip" href="#work" data-i18n="skip">Skip to the workbench</a>
+
+<header class="masthead">
+  <div class="logo" aria-hidden="true"><span lang="zh">一</span></div>
+  <div class="title">
+    <h1>base16384 <span class="thin">web</span></h1>
+    <p class="sub" data-i18n="tagline">any data as printable text, fourteen bits per character</p>
+  </div>
+  <div class="prefs">
+    <div class="seg" role="group" aria-label="Language / 言語">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="ja" lang="ja">日本語</button>
+    </div>
+    <label><span class="sr" data-i18n="theme">Theme</span>
+      <select id="theme">
+        <option value="auto" data-i18n="themeAuto">Auto</option>
+        <option value="light" data-i18n="themeLight">Light</option>
+        <option value="dark" data-i18n="themeDark">Dark</option>
+      </select>
+    </label>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sections" data-i18n-aria-label="sections">
+  <button role="tab" id="tab-work" aria-controls="work" data-tab="work" data-i18n="tabWork">Workbench</button>
+  <button role="tab" id="tab-bench" aria-controls="bench" data-tab="bench" data-i18n="tabBench">Benchmark</button>
+  <button role="tab" id="tab-alphabet" aria-controls="alphabet" data-tab="alphabet" data-i18n="tabAlphabet">Alphabet</button>
+</nav>
+
+<main>
+<!-- ── workbench ─────────────────────────────────────────────────────────── -->
+<section id="work" role="tabpanel" aria-labelledby="tab-work">
+  <h2 class="sr" data-i18n="tabWork">Workbench</h2>
+  <div class="toolbar">
+    <div class="seg big" role="group" aria-label="Direction" data-i18n-aria-label="direction">
+      <button type="button" data-mode="encode" data-i18n="encode">Encode</button>
+      <button type="button" data-mode="decode" data-i18n="decode">Decode</button>
+    </div>
+    <button type="button" id="swap" class="ghost"><span aria-hidden="true">⇄</span> <span data-i18n="swap">Swap</span></button>
+    <div class="presets">
+      <span class="sc" data-i18n="tryLabel">Try</span>
+      <button type="button" class="link" data-preset="hello" data-i18n="presetHello">text</button>
+      <button type="button" class="link" data-preset="binary" data-i18n="presetBinary">structured binary</button>
+      <button type="button" class="link" data-preset="damaged" data-i18n="presetDamaged">a damaged copy</button>
+    </div>
+  </div>
+
+  <div class="panes">
+    <div class="pane">
+      <div class="pane-head">
+        <label for="input" class="sc" data-i18n="input">Input</label>
+        <select id="kind" aria-label="Input kind" data-i18n-aria-label="kindLabel">
+          <option value="text" data-i18n="kindText">Text (UTF-8)</option>
+          <option value="hex" data-i18n="kindHex">Hex</option>
+          <option value="base64" data-i18n="kindBase64">Base64</option>
+          <option value="file" data-i18n="kindFile">File</option>
+        </select>
+        <button type="button" id="clear" class="link" data-i18n="clear">Clear</button>
+      </div>
+      <div class="drop" id="drop">
+        <textarea id="input" spellcheck="false" autocomplete="off" rows="9" aria-describedby="in-hint problems"></textarea>
+        <div class="file" id="file-box" hidden>
+          <p id="file-name"></p>
+          <label class="button"><input type="file" id="file" class="sr"><span data-i18n="fileChoose">Choose a file</span></label>
+          <p class="hint" data-i18n="fileHint">…or drop one here. Files are read in this page and never uploaded.</p>
+        </div>
+      </div>
+      <p class="hint" id="in-hint"></p>
+    </div>
+
+    <div class="pane">
+      <div class="pane-head">
+        <span class="sc" id="out-label" data-i18n="output">Output</span>
+        <select id="view" aria-label="Show decoded bytes as" data-i18n-aria-label="viewLabel" hidden>
+          <option value="text" data-i18n="kindText">Text (UTF-8)</option>
+          <option value="hex" data-i18n="kindHex">Hex</option>
+          <option value="base64" data-i18n="kindBase64">Base64</option>
+        </select>
+        <span class="actions">
+          <button type="button" id="copy" class="link" data-i18n="copy">Copy</button>
+          <button type="button" id="download" class="link" data-i18n="download">Download</button>
+          <button type="button" id="share" class="link" data-i18n="share">Link</button>
+        </span>
+      </div>
+      <div id="output" class="output" tabindex="0" role="textbox" aria-readonly="true" aria-multiline="true" aria-labelledby="out-label" aria-describedby="out-keys" lang="zh"></div>
+      <p class="sr" id="out-keys" data-i18n="outKeys">Use the arrow keys to inspect each character.</p>
+      <div id="problems" class="problems" role="status"></div>
+    </div>
+  </div>
+
+  <div class="options">
+    <fieldset id="enc-opts">
+      <legend data-i18n="encOpts">Encoding</legend>
+      <label><span data-i18n="optWrap">Line width</span>
+        <select id="wrap">
+          <option value="0" data-i18n="noWrap">no line breaks</option>
+          <option value="16">16</option>
+          <option value="32">32</option>
+          <option value="64">64</option>
+        </select></label>
+      <p class="hint" data-i18n="optWrapHint">Line breaks are for reading only. This page ignores them, but the reference tool does not, so download without them for that tool.</p>
+      <label><span data-i18n="optFile">Download as</span>
+        <select id="fileFormat">
+          <option value="utf16bom" data-i18n="fmtBom">UTF-16BE + BOM</option>
+          <option value="utf16" data-i18n="fmtNoBom">UTF-16BE, no BOM</option>
+          <option value="utf8" data-i18n="fmtUtf8">UTF-8 text</option>
+        </select></label>
+      <p class="hint" data-i18n="optFileHint">The reference tool writes UTF-16BE with a byte order mark, or without one when run with -n.</p>
+    </fieldset>
+    <fieldset id="dec-opts">
+      <legend data-i18n="decOpts">Decoding</legend>
+      <label class="check"><input type="checkbox" id="lenient"> <span data-i18n="optLenient">Forgiving</span></label>
+      <p class="hint" data-i18n="optLenientHint">Skip characters that do not belong and decode what is complete, reporting each problem instead of stopping.</p>
+    </fieldset>
+    <fieldset>
+      <legend data-i18n="dispOpts">Display</legend>
+      <label class="check"><input type="checkbox" id="shade"> <span data-i18n="optShade">Tint characters by value</span></label>
+      <p class="hint" data-i18n="optShadeHint">Equal byte patterns get equal colours, so repetition stands out.</p>
+    </fieldset>
+  </div>
+
+  <dl class="stats" id="stats"></dl>
+
+  <figure class="map" id="map-figure" hidden>
+    <canvas id="map" width="256" height="1" role="img" aria-label="Byte map" data-i18n-aria-label="mapLabel"></canvas>
+    <figcaption class="hint" id="map-caption"></figcaption>
+  </figure>
+
+  <aside class="inspector" id="inspector" aria-live="polite" aria-label="Inspector" data-i18n-aria-label="inspector">
+    <p class="hint" data-i18n="inspectHint">Point at or tap a character to inspect it.</p>
+  </aside>
+</section>
+
+<!-- ── benchmark ─────────────────────────────────────────────────────────── -->
+<section id="bench" role="tabpanel" aria-labelledby="tab-bench" hidden>
+  <h2 class="sr" data-i18n="tabBench">Benchmark</h2>
+  <p class="lede" data-i18n="benchLede">Measures how fast this browser encodes and decodes random data, next to its own base64 and hex. It runs in a background worker, so the page stays responsive. Results depend on the device and are not sent anywhere.</p>
+  <div class="toolbar">
+    <label class="inline"><span data-i18n="benchSizes">Sizes</span>
+      <select id="bench-sizes">
+        <option value="quick" data-i18n="benchQuick">quick (1 KiB – 1 MiB)</option>
+        <option value="full" data-i18n="benchFull">full (1 KiB – 16 MiB)</option>
+      </select></label>
+    <button type="button" id="bench-run" class="primary" data-i18n="benchRun">Run benchmark</button>
+    <button type="button" id="bench-copy" class="link" data-i18n="benchCopy" disabled>Copy results</button>
+    <span id="bench-status" class="hint" role="status" aria-live="polite"></span>
+  </div>
+  <div id="bench-results"></div>
+</section>
+
+<!-- ── alphabet ──────────────────────────────────────────────────────────── -->
+<section id="alphabet" role="tabpanel" aria-labelledby="tab-alphabet" hidden>
+  <h2 class="sr" data-i18n="tabAlphabet">Alphabet</h2>
+  <p class="lede" data-i18n="alphaLede">16384 characters, U+4E00 to U+8DFF, one for each 14-bit value, shown 256 at a time. Six end markers, U+3D01 to U+3D06, record the length of a short last group.</p>
+  <div class="toolbar">
+    <button type="button" class="ghost" id="page-prev" aria-label="Previous page" data-i18n-aria-label="prev">←</button>
+    <label class="inline"><span data-i18n="page">Page</span>
+      <input type="number" id="page" min="0" max="63" step="1" inputmode="numeric"></label>
+    <span class="hint" id="page-range"></span>
+    <button type="button" class="ghost" id="page-next" aria-label="Next page" data-i18n-aria-label="next">→</button>
+    <input type="search" id="alpha-search" placeholder="Value, character or U+code" aria-label="Find a value, character or code point" data-i18n-placeholder="alphaSearch" data-i18n-aria-label="alphaSearchLabel">
+  </div>
+  <div class="alpha-body">
+    <div>
+      <div class="grid" id="grid" lang="zh"></div>
+      <h3 class="sc-h" data-i18n="markers">End markers</h3>
+      <div class="markers" id="markers" lang="zh"></div>
+    </div>
+    <aside class="inspector" id="alpha-inspector" aria-live="polite" aria-label="Inspector" data-i18n-aria-label="inspector">
+      <p class="hint" data-i18n="inspectHint">Point at or tap a character to inspect it.</p>
+    </aside>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p data-i18n="footer">Runs entirely in your browser; nothing you enter or drop is sent anywhere. base16384 is a notation, not encryption. This is an independent, unofficial tool, not affiliated with the authors of the base16384 format.</p>
+  <p class="small"><a href="https://github.com/DecodeEncode/base16384-web" data-i18n="source">Source code</a> (AGPL-3.0) · <a href="api/">API</a> · <a href="https://github.com/DecodeEncode/base16384-js" data-i18n="engine">Encoder: base16384-js (Apache-2.0)</a> · <a href="https://github.com/fumiama/base16384" data-i18n="formatBy">base16384 format by Fumiama Minamoto</a> <span id="version"></span></p>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p class="noscript">This tool needs JavaScript.</p></noscript>
+</body>
+</html>

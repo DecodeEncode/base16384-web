@@ -2,7 +2,7 @@
 
 Encode and decode base16384 in your browser: files, text, hex and base64, with a byte map, an alphabet browser and a speed benchmark.
 
-**Open it: <https://didvc.github.io/base16384-web/>** Everything runs in the page. Nothing you type or drop is uploaded.
+**Open it: <https://decodeencode.github.io/base16384-web/>** Everything runs in the page. Nothing you type or drop is uploaded.
 
 ![Text encoded as base16384, with one character inspected](images/encode.png)
 
@@ -52,7 +52,7 @@ The Alphabet tab shows all 16384 characters, 256 per page, each with its value. 
 
 The Link button copies an address that reopens the page with the same input and settings. Files, and inputs longer than a few thousand characters, are left out of the link.
 
-[`api/`](https://didvc.github.io/base16384-web/api/) answers requests such as `api/?op=encode&text=12345678` with JSON. It is computed in the browser, so a browser or a headless browser gets the JSON, while a plain HTTP client gets a usage guide.
+[`api/`](https://decodeencode.github.io/base16384-web/api/) answers requests such as `api/?op=encode&text=12345678` with JSON. It is computed in the browser, so a browser or a headless browser gets the JSON, while a plain HTTP client gets a usage guide.
 
 The page has a light and a dark theme that follow the system unless you pick one. It also has English and Japanese text, and works on a phone.
 
@@ -60,11 +60,15 @@ The page has a light and a dark theme that follow the system unless you pick one
 
 ## Compatibility
 
-The encoder is base16384-js, an independent implementation that has been checked against the reference tool 2.3.2 in both directions. Two differences are worth knowing. This page tolerates whitespace and rejects damaged input, while the reference tool reads both as data. The reference tool's optional checksum (`-c`) is not supported. The full list is in the base16384-js documentation.
+The encoder is [base16384-js](https://github.com/DecodeEncode/base16384-js), an independent implementation that has been checked against the reference tool 2.3.2 in both directions. Two differences are worth knowing. This page tolerates whitespace and rejects damaged input, while the reference tool reads both as data. The reference tool's optional checksum (`-c`) is not supported. The full list is in its [format notes](https://github.com/DecodeEncode/base16384-js/blob/main/FORMAT.md).
 
 ## Running it yourself
 
 The site is static files. Serve the folder with any web server (`make serve` uses one on port 8000) and open it; module scripts do not load from `file://` addresses. `make test` runs the API tests. With `BROWSER` set to a headless-capable browser, `make check` loads every page and checks the main functions, and `make images` retakes the screenshots.
+
+## Credits
+
+The base16384 format and its reference implementation, [fumiama/base16384](https://github.com/fumiama/base16384), are by Fumiama Minamoto.
 
 ## Licence
 

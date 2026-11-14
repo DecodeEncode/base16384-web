@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use base16384 web, please cite it as below."
+type: software
+title: "base16384 web: a browser workbench for the base16384 text format"
+abstract: >-
+  A static web app that encodes and decodes the base16384 binary-to-text
+  format in the browser, with file support in the reference tool's UTF-16BE
+  format, a byte map, an alphabet browser, a client-side JSON API and a
+  throughput benchmark running in a web worker.
+authors:
+  - name: "Aesthetic Vulpes"
+    website: "https://github.com/didvc/"
+version: 1.0.0
+date-released: 2026-11-01
+license: AGPL-3.0-or-later
+repository-code: "https://github.com/DecodeEncode/base16384-web"
+url: "https://decodeencode.github.io/base16384-web/"
+keywords:
+  - base16384
+  - binary-to-text encoding
+  - web app
+  - benchmark
+references:
+  - type: software
+    title: "base16384-js"
+    authors:
+      - name: "Aesthetic Vulpes"
+    license: Apache-2.0
+    repository-code: "https://github.com/DecodeEncode/base16384-js"

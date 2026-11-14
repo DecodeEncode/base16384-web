@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<title>base16384 web API</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<style>
+  :root { --bg: #f7f6f3; --ink: #1b1d21; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #17181b; --ink: #e9e7e2; } }
+  body { margin: 0; background: var(--bg); color: var(--ink); }
+  pre { margin: 0; padding: 16px; font: 14px/1.55 ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+</style>
+<script type="module">
+  import { handle } from "./api.mjs";
+  const out = document.getElementById("out");
+  let r;
+  try { r = handle(new URLSearchParams(location.search)); }
+  catch (e) { r = { ok: false, error: { code: "internal", message: String(e?.message ?? e) } }; }
+  if (r) out.textContent = JSON.stringify(r, null, 2);
+  document.documentElement.dataset.status = r ? (r.ok ? "ok" : "error") : "guide";
+</script>
+</head>
+<body>
+<pre id="out">base16384 web API
+
+This page computes its answer in the browser. Fetched without running
+scripts (for example with a plain HTTP client), you get this guide.
+In a browser, or a headless browser that runs scripts, the page body is
+replaced by a JSON result. When it is done, the html element carries
+data-status="ok", "error" or "guide".
+
+Requests (query string, UTF-8, percent-encoded):
+
+  ?op=encode&amp;text=12345678       encode text
+  ?op=encode&amp;hex=3132333435      encode bytes given as hex
+  ?op=encode&amp;base64=MTIzNDU=     encode bytes given as base64
+
+  ?op=decode&amp;data=婌焳廔萷尀㴁   decode
+      options: lenient=1
+      returns bytes, text (null if not UTF-8), hex, base64, warnings
+
+  ?op=length&amp;bytes=1000          characters needed for a number of bytes
+  ?op=describe&amp;c=婌㴁            value or end-marker length per character
+  ?op=version                    versions of this tool and its encoder
+
+Every result has "ok", "op" and "version"; failures add
+"error": { "code", "message", "position"? }.
+
+Without a browser, use the encoder directly: base16384-js, a single
+JavaScript module with a command-line tool.
+
+Source: https://github.com/DecodeEncode/base16384-web (AGPL-3.0)
+</pre>
+</body>
+</html>
